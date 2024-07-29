@@ -31,7 +31,7 @@ Pizza Palace is a comprehensive pizza ordering application designed to streamlin
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/pizza-palace.git
+    git clone https://github.com/saurabhjojare/pizza-palace.git
     cd pizza-palace
     ```
 
