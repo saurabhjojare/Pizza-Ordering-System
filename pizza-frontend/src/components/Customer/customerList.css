@@ -1,0 +1,41 @@
+.customer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.customer-list {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.customer-list h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.list-group-item button {
+    padding: 5px 10px;
+    width: 25%;
+}
+
+.list-group-item button:hover {
+    background-color: #0056b3;
+}

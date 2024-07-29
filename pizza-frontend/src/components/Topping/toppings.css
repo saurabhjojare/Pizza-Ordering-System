@@ -1,0 +1,17 @@
+/* src/components/Body/toppings.css */
+.toppings {
+    margin-top: 10px;
+}
+
+.toppings h6 {
+    margin-bottom: 10px;
+}
+
+.toppings ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.toppings li {
+    margin-bottom: 5px;
+}

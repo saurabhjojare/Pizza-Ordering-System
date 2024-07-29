@@ -1,0 +1,53 @@
+.order-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-line-info {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-btn {
+    
+    color: #000;
+    border: none;
+    padding: 5px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin: 0 5px;
+}
+
+.quantity-btn:hover {
+    color: #fff;
+    background-color: #000;
+}
+
+.quantity {
+    width: 30px;
+    text-align: center;
+}
+
+.remove-from-cart-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.remove-from-cart-btn:hover {
+    background-color: #c82333;
+}
