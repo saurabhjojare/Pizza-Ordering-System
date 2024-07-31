@@ -7,19 +7,19 @@ export class OrderEntity {
   @PrimaryGeneratedColumn()
   order_id: number;
 
-  @Column({ type: 'boolean' })  
+  @Column({ type: 'boolean', nullable: false })  
   status: boolean;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })  
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })  
   total_amount: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: false })
   order_time: Date; 
 
-  @Column({ type: 'int' })  
+  @Column({ type: 'int', nullable: false})  
   customer_id: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: false })
   delivery_address: string;
 
   @ManyToOne(() => CustomerEntity, customer => customer.orders, {onDelete : 'CASCADE'})

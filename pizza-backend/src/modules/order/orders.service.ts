@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto'; // Ensure this import is correct
+import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderEntity } from './entities/order.entity';
 import { Repository } from 'typeorm';
-import { OrderLineEntity } from 'src/order-line/entities/order-line.entity';
-import { PizzaEntity } from 'src/pizza/entities/pizza.entity';
+import { OrderEntity } from './entities/order.entity';
+import { OrderLineEntity } from '../order-line/entities/order-line.entity';
+import { PizzaEntity } from '../pizza/entities/pizza.entity';
 
 @Injectable()
 export class OrdersService {
@@ -19,7 +19,7 @@ export class OrdersService {
 
   calculateTotalLineAmount(pizza: PizzaEntity, size: string, quantity: number): number {
     if (!this.validSizes.includes(size)) {
-      throw new Error('Invalid pizza size');
+      throw new BadRequestException('Invalid pizza size');
     }
 
     let price;
@@ -34,7 +34,7 @@ export class OrdersService {
         price = pizza.largePrice;
         break;
       default:
-        throw new Error('Invalid pizza size');
+        throw new BadRequestException('Invalid pizza size');
     }
 
     return price * quantity;
@@ -46,7 +46,7 @@ export class OrdersService {
     const order = this.orderRepository.create({
       customer_id,
       delivery_address,
-      total_amount: 0,  
+      total_amount: 0,
       status,
     });
 
@@ -106,9 +106,8 @@ export class OrdersService {
     return `Order #${id} has been successfully updated.`;
   }
 
-  async remove(id: number): Promise<string> {
+  async remove(id: number): Promise<void> {
     const order = await this.findOne(id);
     await this.orderRepository.remove(order);
-    return `Order #${id} has been successfully deleted.`;
   }
 }

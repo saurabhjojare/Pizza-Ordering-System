@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { CustomersModule } from './customer/customers.module';
-import { dataSourceOptions } from 'database/data-source';
+import { CustomersModule } from './modules/customer/customers.module';
+import { dataSourceOptions } from './database/data-source';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OrdersModule } from './order/orders.module';
-import { OrderLineModule } from './order-line/order-line.module';
-import { PizzaModule } from './pizza/pizza.module';
+import { OrdersModule } from './modules/order/orders.module';
+import { OrderLineModule } from './modules/order-line/order-line.module';
+import { PizzaModule } from './modules/pizza/pizza.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 

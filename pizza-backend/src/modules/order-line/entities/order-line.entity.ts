@@ -7,19 +7,19 @@ export class OrderLineEntity {
     @PrimaryGeneratedColumn()
     orderline_id: number;
   
-    @Column()
+    @Column({nullable: false})
     order_id: number; 
   
-    @Column()
+    @Column({nullable: false})
     pizza_id: number;
   
-    @Column()
+    @Column({nullable: false})
     size: string;
   
-    @Column()
+    @Column({nullable: false})
     quantity: number;
   
-    @Column()
+    @Column({nullable: false})
     total_amount: number;
   
     @ManyToOne(() => OrderEntity, order => order.orderLines, { onDelete: 'CASCADE' })
