@@ -31,7 +31,7 @@ Pizza Palace is a comprehensive pizza ordering application designed to streamlin
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/pizza-palace.git
+    git clone https://github.com/saurabhjojare/pizza-palace.git
     cd pizza-palace
     ```
 
@@ -81,6 +81,12 @@ Pizza Palace is a comprehensive pizza ordering application designed to streamlin
 - **POST /api/v1/orders**: Create a new order.
 - **PUT /api/v1/orders/{id}**: Update an existing order.
 - **DELETE /api/v1/orders/{id}**: Cancel an order.
+- **GET /api/v1/order-line**: Retrieve the list of order lines.
+- **POST /api/v1/customers**: Create a new customer.
+- **GET /api/v1/customers/{id}**: Retrieve a customer by ID.
+- **PUT /api/v1/customers/{id}**: Update customer information.
+- **DELETE /api/v1/customers/{id}**: Delete a customer.
+- **GET /api/v1/orders**: Retrieve a list of orders.
 
 ## Contributing
 
@@ -96,4 +102,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For any questions or feedback, please reach out to [your-email@example.com](mailto:your-email@example.com).
+For any questions or feedback, please reach out to saurabh.jojare@gmail.com](mailto:saurabh.jojare@gmail.com).
