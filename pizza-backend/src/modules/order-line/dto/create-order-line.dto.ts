@@ -2,7 +2,7 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrderLineDto {
   @IsNotEmpty()
-  @IsNumber()
+  @IsNumber({}, { message: 'Pizza ID must be a number' })
   pizza_id: number;
 
   @IsNotEmpty({ message: 'Size is required' })
