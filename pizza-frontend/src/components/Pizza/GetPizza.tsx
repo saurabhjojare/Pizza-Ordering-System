@@ -116,7 +116,7 @@ const GetPizza: React.FC = () => {
         />
       )}
     
-      <h1 className="text-center mb-4">Pizza Menu</h1>
+      <h3 className="text-center mb-4">Pizza Menu</h3>
       <div className="row justify-content-center">
         {pizzas.map((pizza) => (
           <div key={pizza.pizza_id} className="col-md-6 col-lg-4 mb-4">

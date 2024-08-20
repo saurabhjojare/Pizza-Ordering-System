@@ -20,15 +20,14 @@ const FetchPizza: React.FC = () => {
 
     return (
         <div className="container mt-4">
-            <h1 className="mb-4">Pizza List</h1>
+            <h3 className="mb-4 text-center">Pizza List</h3>
             <table className="table">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Regular Price</th>
-                        <th>Medium Price</th>
-                        <th>Large Price</th>
+                        <th>Price</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,9 +35,8 @@ const FetchPizza: React.FC = () => {
                         <tr key={pizza.pizza_id}>
                             <td>{pizza.name}</td>
                             <td>{pizza.type}</td>
-                            <td>{pizza.regularPrice}</td>
-                            <td>{pizza.mediumPrice}</td>
-                            <td>{pizza.largePrice}</td>
+                            <td>Regular ${pizza.regularPrice}<br/>Medium ${pizza.mediumPrice}<br/>Large ${pizza.largePrice}</td>
+                            <td className="text-center"><button className="btn btn-success">Update</button> <button className="btn btn-danger">Delete</button> </td>
                         </tr>
                     ))}
                 </tbody>

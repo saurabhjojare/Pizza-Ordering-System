@@ -1,45 +1,37 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
-import AddPizza from '../Pizza/AddPizza';
 
 const Header: React.FC = () => {
-    const location = useLocation(); // Get current location
-    const [showAddPizzaModal, setShowAddPizzaModal] = useState(false);
+    const location = useLocation(); 
 
-    // Define paths where the "Admin" link should not be displayed
-    const hideAdminLinkPaths = ['/admin', '/pizza', '/customer'];
-
-    // Check if the current path is in the list of paths to hide the "Admin" link
+    const hideAdminLinkPaths = ['/admin', '/pizza', '/customer', '/add-pizza'];
     const shouldHideAdminLink = hideAdminLinkPaths.includes(location.pathname);
 
-    const handleShowAddPizzaModal = () => {
-        setShowAddPizzaModal(true);
-    };
-
-    const handleCloseAddPizzaModal = () => {
-        setShowAddPizzaModal(false);
-    };
-
     return (
-        <div>
-            <header className="header">
-                <Link to="/" className="display-6 text-decoration-none text-white">
-                    <h1 className='fw-light'>Pizza Palace</h1>
+        <header className="header">
+            <Link to="/" className="display-6 text-decoration-none text-white">
+                <h2 className='fw-light'>Pizza Palace</h2>
+            </Link>
+            
+            {location.pathname === '/pizza' && (
+                <Link to="/add-pizza" className="btn text-white">
+                    Add Pizza
                 </Link>
-                {location.pathname === '/pizza' && (
-                    <>
-                        <button className="btn text-white" onClick={handleShowAddPizzaModal}>
-                            Add Pizza
-                        </button>
-                        <AddPizza show={showAddPizzaModal} onClose={handleCloseAddPizzaModal} />
-                    </>
-                )}
-                {!shouldHideAdminLink ? (
-                    <a href="/admin" className="admin-link text-decoration-none">Admin</a>
-                ) : null}
-            </header>
-        </div>
+            )}
+
+            {location.pathname === '/add-pizza' ? (
+                <Link to="/pizza" className="btn text-white">
+                    Back
+                </Link>
+            ) : (
+                !shouldHideAdminLink && (
+                    <a href="/admin" className="admin-link text-decoration-none h5 fw-light me-3">
+                        Admin
+                    </a>
+                )
+            )}
+        </header>
     );
 };
 

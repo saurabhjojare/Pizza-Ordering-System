@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './AddPizza.css'; // Import your CSS file
 
-const AddPizza: React.FC<{ show: boolean; onClose: () => void; }> = ({ show, onClose }) => {
+const AddPizza: React.FC = () => {
   const [name, setName] = useState('');
   const [type, setType] = useState<'Vegetarian' | 'Non-Vegetarian'>('Vegetarian');
   const [imageUrl, setImageUrl] = useState('');
@@ -14,7 +15,7 @@ const AddPizza: React.FC<{ show: boolean; onClose: () => void; }> = ({ show, onC
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     try {
       const newPizza = {
         name,
@@ -29,8 +30,7 @@ const AddPizza: React.FC<{ show: boolean; onClose: () => void; }> = ({ show, onC
       await axios.post('http://localhost:5000/api/v1/pizzas', newPizza);
       setSuccess('Pizza added successfully!');
       setError(null);
-      onClose(); // Close modal after success
-      // Reset form fields after successful submission
+      // Reset form fields
       setName('');
       setType('Vegetarian');
       setImageUrl('');
@@ -45,113 +45,95 @@ const AddPizza: React.FC<{ show: boolean; onClose: () => void; }> = ({ show, onC
   };
 
   return (
-    <div className={`modal ${show ? 'show' : ''}`} tabIndex={-1} role="dialog" style={{ display: show ? 'block' : 'none', marginTop: '50px', paddingBottom: '100px'}}>
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <div className="modal-header d-flex justify-content-between align-items-center">
-            <h5 className="modal-title">Add New Pizza</h5>
-            <button type="button" className="btn btn-danger close" aria-label="Close" onClick={onClose}>
-              <span aria-hidden="true">Close</span>
-            </button>
-          </div>
-          <div className="modal-body">
-            {error && <div className="alert alert-danger">{error}</div>}
-            {success && <div className="alert alert-success">{success}</div>}
-            <form onSubmit={handleSubmit}>
-              <div className="row mb-3">
-                <label htmlFor="name" className="col-sm-3 col-form-label text-black">Name</label>
-                <div className="col-sm-9">
-                  <input
-                    type="text"
-                    id="name"
-                    className="form-control"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor="type" className="col-sm-3 col-form-label text-black">Type</label>
-                <div className="col-sm-9">
-                  <select
-                    id="type"
-                    className="form-control"
-                    value={type}
-                    onChange={(e) => setType(e.target.value as 'Vegetarian' | 'Non-Vegetarian')}
-                  >
-                    <option value="Vegetarian">Vegetarian</option>
-                    <option value="Non-Vegetarian">Non-Vegetarian</option>
-                  </select>
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor="imageUrl" className="col-sm-3 col-form-label text-black">Image URL</label>
-                <div className="col-sm-9">
-                  <input
-                    type="text"
-                    id="imageUrl"
-                    className="form-control"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor="description" className="col-sm-3 col-form-label text-black">Description</label>
-                <div className="col-sm-9">
-                  <textarea
-                    id="description"
-                    className="form-control"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor="regularPrice" className="col-sm-3 col-form-label text-black">Regular Price</label>
-                <div className="col-sm-9">
-                  <input
-                    type="number"
-                    id="regularPrice"
-                    className="form-control"
-                    value={regularPrice}
-                    onChange={(e) => setRegularPrice(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor="mediumPrice" className="col-sm-3 col-form-label text-black">Medium Price</label>
-                <div className="col-sm-9">
-                  <input
-                    type="number"
-                    id="mediumPrice"
-                    className="form-control"
-                    value={mediumPrice}
-                    onChange={(e) => setMediumPrice(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor="largePrice" className="col-sm-3 col-form-label text-black">Large Price</label>
-                <div className="col-sm-9">
-                  <input
-                    type="number"
-                    id="largePrice"
-                    className="form-control"
-                    value={largePrice}
-                    onChange={(e) => setLargePrice(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
+    <div className="container container-with-navbar">
+      <div className="row justify-content-center">
+        <div className="col-lg-6 col-md-8 col-sm-10">
+          <h3 className="mb-2 text-center">Add New Pizza</h3>
+          {error && <div className="alert alert-danger">{error}</div>}
+          {success && <div className="alert alert-success">{success}</div>}
+          <form onSubmit={handleSubmit} className="needs-validation" noValidate>
+            <div className="mb-2">
+              <label htmlFor="name" className="form-label">Name</label>
+              <input
+                type="text"
+                id="name"
+                className="form-control"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="type" className="form-label">Type</label>
+              <select
+                id="type"
+                className="form-select"
+                value={type}
+                onChange={(e) => setType(e.target.value as 'Vegetarian' | 'Non-Vegetarian')}
+              >
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Non-Vegetarian">Non-Vegetarian</option>
+              </select>
+            </div>
+            <div className="mb-2">
+              <label htmlFor="imageUrl" className="form-label">Image URL</label>
+              <input
+                type="text"
+                id="imageUrl"
+                className="form-control"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="description" className="form-label">Description</label>
+              <textarea
+                id="description"
+                className="form-control"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+                rows={3}
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="regularPrice" className="form-label">Regular Price</label>
+              <input
+                type="number"
+                id="regularPrice"
+                className="form-control"
+                value={regularPrice}
+                onChange={(e) => setRegularPrice(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="mediumPrice" className="form-label">Medium Price</label>
+              <input
+                type="number"
+                id="mediumPrice"
+                className="form-control"
+                value={mediumPrice}
+                onChange={(e) => setMediumPrice(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="largePrice" className="form-label">Large Price</label>
+              <input
+                type="number"
+                id="largePrice"
+                className="form-control"
+                value={largePrice}
+                onChange={(e) => setLargePrice(e.target.value)}
+                required
+              />
+            </div>
+            <div className='d-flex justify-content-center'>
               <button type="submit" className="btn btn-primary">Add</button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
