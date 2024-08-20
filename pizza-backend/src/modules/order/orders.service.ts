@@ -13,7 +13,7 @@ export class OrdersService {
     @InjectRepository(OrderEntity) private readonly orderRepository: Repository<OrderEntity>,
     @InjectRepository(OrderLineEntity) private readonly orderLineRepository: Repository<OrderLineEntity>,
     @InjectRepository(PizzaEntity) private readonly pizzaRepository: Repository<PizzaEntity>,
-  ) {}
+  ) { }
 
   private readonly validSizes = ['regular', 'medium', 'large'];
 

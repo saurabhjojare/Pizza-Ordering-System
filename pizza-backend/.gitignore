@@ -14,6 +14,8 @@ lerna-debug.log*
 
 # OS
 .DS_Store
+Thumbs.db
+ehthumbs.db
 
 # Tests
 /coverage
@@ -72,3 +74,12 @@ docker-compose.override.yml
 # Node.js
 npm-debug.log*
 yarn-debug.log*
+
+# Yarn
+yarn-error.log
+
+# NX
+/nx.json
+
+# ESLint cache
+.eslintcache

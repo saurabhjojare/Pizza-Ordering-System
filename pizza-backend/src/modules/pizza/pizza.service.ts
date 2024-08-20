@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreatePizzaDto } from './dto/create-pizza.dto';
 import { UpdatePizzaDto } from './dto/update-pizza.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,8 +9,8 @@ import { Repository } from 'typeorm';
 export class PizzaService {
   constructor(
     @InjectRepository(PizzaEntity)
-    private pizzaRepository: Repository<PizzaEntity>,
-  ) {}
+    private readonly pizzaRepository: Repository<PizzaEntity>,
+  ) { }
 
   async create(createPizzaDto: CreatePizzaDto): Promise<PizzaEntity> {
     const pizza = this.pizzaRepository.create(createPizzaDto);
@@ -21,16 +21,22 @@ export class PizzaService {
     return await this.pizzaRepository.find();
   }
 
-  async findOne(id: number): Promise<PizzaEntity | null> {
-    return await this.pizzaRepository.findOneBy({ pizza_id: id });
+  async findOne(id: number): Promise<PizzaEntity> {
+    const pizza = await this.pizzaRepository.findOneBy({ pizza_id: id });
+    if (!pizza) {
+      throw new NotFoundException(`Pizza with ID ${id} not found`);
+    }
+    return pizza;
   }
 
   async update(id: number, updatePizzaDto: UpdatePizzaDto): Promise<PizzaEntity> {
+    const pizza = await this.findOne(id); // Ensure pizza exists
     await this.pizzaRepository.update(id, updatePizzaDto);
     return this.pizzaRepository.findOneBy({ pizza_id: id });
   }
 
   async remove(id: number): Promise<void> {
+    const pizza = await this.findOne(id); // Ensure pizza exists
     await this.pizzaRepository.delete(id);
   }
 }

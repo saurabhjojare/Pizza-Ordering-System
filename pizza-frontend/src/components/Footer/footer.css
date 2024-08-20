@@ -1,9 +1,7 @@
-/* src/components/Footer/footer.css */
-
 .footer {
-    background-color: #343a40;
-    color: white;
-    padding: 20px 0;
+    background-color: #000;
+    color: #fff;
+    padding: 0px;
     position: fixed;
     bottom: 0;
     width: 100%;

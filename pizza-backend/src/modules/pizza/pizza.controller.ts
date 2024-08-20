@@ -1,105 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { PizzaService } from './pizza.service';
 import { CreatePizzaDto } from './dto/create-pizza.dto';
 import { UpdatePizzaDto } from './dto/update-pizza.dto';
-import { SuccessResponseDto, ErrorResponseDto } from '../../common/dto/response.dto';
 import { PizzaEntity } from './entities/pizza.entity';
+import { ResponseInterceptor } from '../../common/interceptors/response.interceptor';
 
 @Controller('pizzas')
+@UseInterceptors(ResponseInterceptor)  // Apply the interceptor at the controller level
 export class PizzaController {
-  constructor(private readonly pizzaService: PizzaService) {}
+  constructor(private readonly pizzaService: PizzaService) { }
 
   @Post()
-  async create(@Body() createPizzaDto: CreatePizzaDto): Promise<SuccessResponseDto<{ Pizza: PizzaEntity[] }> | ErrorResponseDto> {
-    try {
-      const pizza = await this.pizzaService.create(createPizzaDto);
-      return {
-        Success: true,
-        Message: 'Successfully created pizza',
-        Data: { Pizza: [pizza] },
-      };
-    } catch (error) {
-      throw new HttpException({
-        Success: false,
-        Message: 'Failed to create pizza',
-        Error: {
-          Code: HttpStatus.BAD_REQUEST,
-          Message: 'Pizza name is mandatory.',
-        },
-      }, HttpStatus.BAD_REQUEST);
-    }
+  async create(@Body() createPizzaDto: CreatePizzaDto): Promise<PizzaEntity> {
+    return this.pizzaService.create(createPizzaDto);
   }
 
   @Get()
-  async findAll(): Promise<SuccessResponseDto<{ Pizza: PizzaEntity[] }>> {
-    const pizzas = await this.pizzaService.findAll();
-    return {
-      Success: true,
-      Message: 'Successfully retrieved pizzas',
-      Data: { Pizza: pizzas },
-    };
+  async findAll(): Promise<PizzaEntity[]> {
+    return this.pizzaService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<SuccessResponseDto<{ Pizza: PizzaEntity }> | ErrorResponseDto> {
-    const pizza = await this.pizzaService.findOne(+id);
-    if (pizza) {
-      return {
-        Success: true,
-        Message: 'Successfully retrieved pizza',
-        Data: { Pizza: pizza },
-      };
-    } else {
-      return {
-        Success: false,
-        Message: 'Pizza not found',
-        Error: {
-          Code: HttpStatus.NOT_FOUND,
-          Message: 'Pizza with the given ID does not exist.',
-        },
-      };
-    }
+  async findOne(@Param('id') id: string): Promise<PizzaEntity> {
+    return this.pizzaService.findOne(+id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updatePizzaDto: UpdatePizzaDto): Promise<SuccessResponseDto<{ Pizza: PizzaEntity }> | ErrorResponseDto> {
-    try {
-      const pizza = await this.pizzaService.update(+id, updatePizzaDto);
-      return {
-        Success: true,
-        Message: 'Successfully updated pizza',
-        Data: { Pizza: pizza },
-      };
-    } catch (error) {
-      return {
-        Success: false,
-        Message: 'Failed to update pizza',
-        Error: {
-          Code: HttpStatus.BAD_REQUEST,
-          Message: 'Invalid data provided.',
-        },
-      };
-    }
+  async update(@Param('id') id: string, @Body() updatePizzaDto: UpdatePizzaDto): Promise<PizzaEntity> {
+    await this.pizzaService.update(+id, updatePizzaDto);
+    return this.pizzaService.findOne(+id);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<SuccessResponseDto<null> | ErrorResponseDto> {
-    try {
-      await this.pizzaService.remove(+id);
-      return {
-        Success: true,
-        Message: 'Successfully deleted pizza',
-        Data: null,
-      };
-    } catch (error) {
-      return {
-        Success: false,
-        Message: 'Failed to delete pizza',
-        Error: {
-          Code: HttpStatus.BAD_REQUEST,
-          Message: 'Failed to delete pizza with the given ID.',
-        },
-      };
-    }
+  async remove(@Param('id') id: string): Promise<void> {
+    await this.pizzaService.remove(+id);
   }
 }

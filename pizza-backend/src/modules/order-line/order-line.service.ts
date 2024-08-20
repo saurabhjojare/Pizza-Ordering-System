@@ -10,15 +10,11 @@ export class OrderLineService {
   constructor(
     @InjectRepository(OrderLineEntity)
     private readonly orderLineRepository: Repository<OrderLineEntity>,
-  ) {}
+  ) { }
 
   async create(createOrderLineDto: CreateOrderLineDto): Promise<OrderLineEntity> {
-    try {
-      const orderLine = this.orderLineRepository.create(createOrderLineDto);
-      return await this.orderLineRepository.save(orderLine);
-    } catch (error) {
-      throw new BadRequestException('Failed to create order line');
-    }
+    const orderLine = this.orderLineRepository.create(createOrderLineDto);
+    return await this.orderLineRepository.save(orderLine);
   }
 
   findAll(): Promise<OrderLineEntity[]> {
@@ -34,21 +30,13 @@ export class OrderLineService {
   }
 
   async update(id: number, updateOrderLineDto: UpdateOrderLineDto): Promise<OrderLineEntity> {
-    try {
-      await this.findOne(id); // Ensure the order line exists
-      await this.orderLineRepository.update({ orderline_id: id }, updateOrderLineDto);
-      return await this.findOne(id);
-    } catch (error) {
-      throw new BadRequestException('Failed to update order line');
-    }
+    await this.findOne(id); // Ensure the order line exists
+    await this.orderLineRepository.update({ orderline_id: id }, updateOrderLineDto);
+    return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
-    try {
-      const orderLine = await this.findOne(id);
-      await this.orderLineRepository.remove(orderLine);
-    } catch (error) {
-      throw new NotFoundException(`Order line with ID ${id} does not exist`);
-    }
+    const orderLine = await this.findOne(id);
+    await this.orderLineRepository.remove(orderLine);
   }
 }

@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePizzaDto {
-  
+
   @IsNotEmpty({ message: 'Pizza name is required' })
   @IsString({ message: 'Pizza name must be a string' })
   name: string;
@@ -12,5 +12,5 @@ export class CreatePizzaDto {
 
   @IsNotEmpty({ message: 'Pizza image URL is required' })
   @IsString({ message: 'Pizza image URL must be a string' })
-  image: string;
+  imageUrl: string;
 }

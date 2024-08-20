@@ -1,108 +1,40 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderEntity } from './entities/order.entity';
-import { SuccessResponseDto, ErrorResponseDto } from '../../common/dto/response.dto';
+import { ResponseInterceptor } from '../../common/interceptors/response.interceptor';
 
 @Controller('orders')
+@UseInterceptors(ResponseInterceptor)  
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(private readonly ordersService: OrdersService) { }
 
   @Post()
-  async create(@Body() createOrderDto: CreateOrderDto): Promise<SuccessResponseDto<{ Order: OrderEntity }> | ErrorResponseDto> {
-    try {
-      const message = await this.ordersService.create(createOrderDto);
-      const orderId = message.match(/Order #(\d+)/)[1]; 
-      const order = await this.ordersService.findOne(+orderId);
-      return {
-        Success: true,
-        Message: `Order #${orderId} has been successfully created`,
-        Data: { Order: order },
-      };
-    } catch (error) {
-      return {
-        Success: false,
-        Message: 'Failed to create order',
-        Error: {
-          Code: HttpStatus.BAD_REQUEST,
-          Message: error.message || 'Invalid data provided.',
-        },
-      };
-    }
+  async create(@Body() createOrderDto: CreateOrderDto): Promise<OrderEntity> {
+    const message = await this.ordersService.create(createOrderDto);
+    const orderId = message.match(/Order #(\d+)/)[1];
+    return this.ordersService.findOne(+orderId);
   }
 
   @Get()
-  async findAll(): Promise<SuccessResponseDto<{ Orders: OrderEntity[] }>> {
-    const orders = await this.ordersService.findAll();
-    return {
-      Success: true,
-      Message: 'Successfully retrieved orders',
-      Data: { Orders: orders },
-    };
+  async findAll(): Promise<OrderEntity[]> {
+    return this.ordersService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<SuccessResponseDto<{ Order: OrderEntity }> | ErrorResponseDto> {
-    try {
-      const order = await this.ordersService.findOne(+id);
-      return {
-        Success: true,
-        Message: `Successfully retrieved order #${id}`,
-        Data: { Order: order },
-      };
-    } catch (error) {
-      return {
-        Success: false,
-        Message: 'Order not found',
-        Error: {
-          Code: HttpStatus.NOT_FOUND,
-          Message: `Order #${id} does not exist.`,
-        },
-      };
-    }
+  async findOne(@Param('id') id: string): Promise<OrderEntity> {
+    return this.ordersService.findOne(+id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto): Promise<SuccessResponseDto<{ Order: OrderEntity }> | ErrorResponseDto> {
-    try {
-      await this.ordersService.update(+id, updateOrderDto);
-      const order = await this.ordersService.findOne(+id);
-      return {
-        Success: true,
-        Message: `Order #${id} has been successfully updated`,
-        Data: { Order: order },
-      };
-    } catch (error) {
-      return {
-        Success: false,
-        Message: 'Failed to update order',
-        Error: {
-          Code: HttpStatus.BAD_REQUEST,
-          Message: error.message || 'Invalid data provided.',
-        },
-      };
-    }
+  async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto): Promise<OrderEntity> {
+    await this.ordersService.update(+id, updateOrderDto);
+    return this.ordersService.findOne(+id);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<SuccessResponseDto<null> | ErrorResponseDto> {
-    try {
-      await this.ordersService.remove(+id);
-      return {
-        Success: true,
-        Message: `Order #${id} has been successfully deleted`,
-        Data: null,
-      };
-    } catch (error) {
-      return {
-        Success: false,
-        Message: 'Failed to delete order',
-        Error: {
-          Code: HttpStatus.NOT_FOUND,
-          Message: `Order #${id} does not exist.`,
-        },
-      };
-    }
+  async remove(@Param('id') id: string): Promise<void> {
+    await this.ordersService.remove(+id);
   }
 }

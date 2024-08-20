@@ -10,14 +10,14 @@ export class CustomersService {
   constructor(
     @InjectRepository(CustomerEntity)
     private readonly customersRepository: Repository<CustomerEntity>,
-  ) {}
+  ) { }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<CustomerEntity> {
     try {
       const customer = this.customersRepository.create(createCustomerDto);
       return await this.customersRepository.save(customer);
     } catch (error) {
-      throw new BadRequestException('Failed to create customer');
+      throw new BadRequestException('Invalid data provided for customer creation');
     }
   }
 
@@ -36,7 +36,10 @@ export class CustomersService {
   }
 
   async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<CustomerEntity> {
-    await this.customersRepository.update(id, updateCustomerDto);
+    const result = await this.customersRepository.update(id, updateCustomerDto);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Customer with ID ${id} not found`);
+    }
     const updatedCustomer = await this.customersRepository.findOne({
       where: { customer_id: id },
     });
