@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import './Pizza.css'; 
-const AddPizza: React.FC = () => {
+
+const UpdatePizza: React.FC = () => {
+  const { pizzaId } = useParams<{ pizzaId: string }>();
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [type, setType] = useState<'Vegetarian' | 'Non-Vegetarian'>('Vegetarian');
   const [imageUrl, setImageUrl] = useState('');
@@ -11,37 +16,59 @@ const AddPizza: React.FC = () => {
   const [largePrice, setLargePrice] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  
+
   useEffect(() => {
-    document.title = 'Add Pizza';
+    document.title = 'Update Pizza';
   }, []);
+
+
+  useEffect(() => {
+    if (!pizzaId) return;
+
+    const fetchPizza = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/v1/pizzas/${pizzaId}`);
+        const pizza = response.data.Data; 
+        setName(pizza.name || '');
+        setType(pizza.type || 'Vegetarian');
+        setImageUrl(pizza.imageUrl || '');
+        setDescription(pizza.description || '');
+        setRegularPrice(pizza.regularPrice || '');
+        setMediumPrice(pizza.mediumPrice || '');
+        setLargePrice(pizza.largePrice || '');
+      } catch (err) {
+        setError('Failed to load pizza data');
+      }
+    };
+
+    fetchPizza();
+  }, [pizzaId]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+  
+    const updatedPizza = {
+      name,
+      type,
+      imageUrl,
+      description,
+      regularPrice,
+      mediumPrice,
+      largePrice,
+    };
+  
     try {
-      const newPizza = {
-        name,
-        type,
-        imageUrl,
-        description,
-        regularPrice,
-        mediumPrice,
-        largePrice,
-      };
-
-      await axios.post('http://localhost:5000/api/v1/pizzas', newPizza);
-      setSuccess('Pizza added successfully!');
-      setError(null);
-      setName('');
-      setType('Vegetarian');
-      setImageUrl('');
-      setDescription('');
-      setRegularPrice('');
-      setMediumPrice('');
-      setLargePrice('');
+      const response = await axios.patch(`http://localhost:5000/api/v1/pizzas/${pizzaId}`, updatedPizza);
+  
+      if (response.data.Success) {
+        setSuccess('Pizza updated successfully!');
+        setError(null);
+        navigate('/pizza');
+      } else {
+        throw new Error(response.data.Message || 'Failed to update pizza');
+      }
     } catch (err) {
-      setError('Failed to add pizza');
+      setError('Failed to update pizza');
       setSuccess(null);
     }
   };
@@ -50,12 +77,12 @@ const AddPizza: React.FC = () => {
     <div className="container container-with-navbar">
       <div className="row justify-content-center">
         <div className="col-lg-6 col-md-8 col-sm-10">
-          <h3 className="mb-2 text-center">Add Pizza</h3>
+          <h3 className="mb-2 text-center">Update Pizza</h3>
           {error && <div className="alert alert-danger">{error}</div>}
           {success && <div className="alert alert-success">{success}</div>}
           <form onSubmit={handleSubmit} className="needs-validation" noValidate>
-            <div className="mb-2">
-              <label htmlFor="name" className="form-label">Name</label>
+            <div className="form-group mb-2">
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
                 id="name"
@@ -65,44 +92,42 @@ const AddPizza: React.FC = () => {
                 required
               />
             </div>
-            <div className="mb-2">
-              <label htmlFor="type" className="form-label">Type</label>
+            <div className="form-group mb-2">
+              <label htmlFor="type">Type</label>
               <select
                 id="type"
-                className="form-select"
+                className="form-control"
                 value={type}
                 onChange={(e) => setType(e.target.value as 'Vegetarian' | 'Non-Vegetarian')}
+                required
               >
                 <option value="Vegetarian">Vegetarian</option>
                 <option value="Non-Vegetarian">Non-Vegetarian</option>
               </select>
             </div>
-            <div className="mb-2">
-              <label htmlFor="imageUrl" className="form-label">Image URL</label>
+            <div className="form-group mb-2">
+              <label htmlFor="imageUrl">Image URL</label>
               <input
                 type="text"
                 id="imageUrl"
                 className="form-control"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                required
               />
             </div>
-            <div className="mb-2">
-              <label htmlFor="description" className="form-label">Description</label>
+            <div className="form-group mb-2">
+              <label htmlFor="description">Description</label>
               <textarea
                 id="description"
                 className="form-control"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
-                rows={3}
-              />
+              ></textarea>
             </div>
-            <div className="mb-2">
-              <label htmlFor="regularPrice" className="form-label">Regular Price</label>
+            <div className="form-group mb-2">
+              <label htmlFor="regularPrice">Regular Price</label>
               <input
-                type="number"
+                type="text"
                 id="regularPrice"
                 className="form-control"
                 value={regularPrice}
@@ -110,10 +135,10 @@ const AddPizza: React.FC = () => {
                 required
               />
             </div>
-            <div className="mb-2">
-              <label htmlFor="mediumPrice" className="form-label">Medium Price</label>
+            <div className="form-group mb-2">
+              <label htmlFor="mediumPrice">Medium Price</label>
               <input
-                type="number"
+                type="text"
                 id="mediumPrice"
                 className="form-control"
                 value={mediumPrice}
@@ -121,10 +146,10 @@ const AddPizza: React.FC = () => {
                 required
               />
             </div>
-            <div className="mb-2">
-              <label htmlFor="largePrice" className="form-label">Large Price</label>
+            <div className="form-group mb-2">
+              <label htmlFor="largePrice">Large Price</label>
               <input
-                type="number"
+                type="text"
                 id="largePrice"
                 className="form-control"
                 value={largePrice}
@@ -132,8 +157,8 @@ const AddPizza: React.FC = () => {
                 required
               />
             </div>
-            <div className='d-flex justify-content-center'>
-              <button type="submit" className="btn btn-primary">Add</button>
+            <div className='text-center'>
+              <button type="submit" className="btn btn-primary">Update</button>
             </div>
           </form>
         </div>
@@ -142,4 +167,4 @@ const AddPizza: React.FC = () => {
   );
 };
 
-export default AddPizza;
+export default UpdatePizza;

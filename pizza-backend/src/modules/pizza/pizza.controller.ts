@@ -6,7 +6,7 @@ import { PizzaEntity } from './entities/pizza.entity';
 import { ResponseInterceptor } from '../../common/interceptors/response.interceptor';
 
 @Controller('pizzas')
-@UseInterceptors(ResponseInterceptor)  // Apply the interceptor at the controller level
+@UseInterceptors(ResponseInterceptor) 
 export class PizzaController {
   constructor(private readonly pizzaService: PizzaService) { }
 

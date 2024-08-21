@@ -6,7 +6,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { CustomerEntity } from './entities/customer.entity';
 
 @Controller('customers')
-@UseInterceptors(ResponseInterceptor)  // Apply the interceptor at the controller level
+@UseInterceptors(ResponseInterceptor)  
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) { }
 

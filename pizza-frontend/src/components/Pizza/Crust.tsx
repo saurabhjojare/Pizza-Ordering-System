@@ -1,4 +1,3 @@
-// Crust.tsx
 import React from 'react';
 import { Crust } from './Toppings';
 
@@ -16,8 +15,7 @@ const CrustComponent: React.FC<CrustProps> = ({ crust, setCrust, crusts }) => {
         id='crust'
         className='form-select'
         value={crust.name}
-        onChange={(e) => setCrust(crusts.find((c) => c.name === e.target.value)!)}
-      >
+        onChange={(e) => setCrust(crusts.find((c) => c.name === e.target.value)!)}>
         {crusts.map((crustOption) => (
           <option key={crustOption.name} value={crustOption.name}>
             {crustOption.name} - ₹{crustOption.price}

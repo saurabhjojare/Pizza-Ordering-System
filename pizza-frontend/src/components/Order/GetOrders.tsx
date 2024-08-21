@@ -27,6 +27,10 @@ const GetOrders: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    document.title = 'Order';
+  }, []);
+
+  useEffect(() => {
     const fetchOrdersAndPizzas = async () => {
       try {
         const ordersResponse = await axios.get('http://localhost:5000/api/v1/orders');
@@ -34,14 +38,14 @@ const GetOrders: React.FC = () => {
 
         const pizzasResponse = await axios.get('http://localhost:5000/api/v1/pizzas');
         const pizzaData: Pizza[] = pizzasResponse.data.Data;
-        
+
         const pizzaMap = new Map<number, string>();
         pizzaData.forEach((pizza: Pizza) => {
           pizzaMap.set(pizza.pizza_id, pizza.name);
         });
         setPizzas(pizzaMap);
       } catch (err) {
-        setError('Failed to fetch order');
+        setError('Failed to fetch orders');
       }
     };
     fetchOrdersAndPizzas();
@@ -94,11 +98,11 @@ const GetOrders: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {reversedOrders.map((order, index) => {
+            {reversedOrders.map((order) => {
               const { date, time } = formatDate(order.order_time);
               return (
                 <tr key={order.order_id}>
-                  <td>{index + 1}</td>
+                  <td>{order.order_id}</td>
                   <td>
                     {order.orderLines.map((line) => (
                       <div key={line.orderline_id}>
@@ -116,7 +120,7 @@ const GetOrders: React.FC = () => {
                   <td>{order.delivery_address}</td>
                   <td>
                     {order.status ? (
-                      <button 
+                      <button
                         className="btn btn-danger btn-sm"
                         onClick={() => handleCancel(order.order_id)}
                       >Cancel

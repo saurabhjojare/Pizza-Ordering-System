@@ -30,6 +30,10 @@ const GetPizza: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    document.title = 'Pizza Palace';
+  }, []);
+
+  useEffect(() => {
     const fetchPizzas = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/v1/pizzas');
@@ -127,15 +131,6 @@ const GetPizza: React.FC = () => {
                 <p className="card-text">{pizza.description}</p>
                 <p className="card-text">
                   <strong>Type:</strong> {pizza.type}
-                </p>
-                <p className="card-text">
-                  <strong>Regular Price:</strong> ${pizza.regularPrice}
-                </p>
-                <p className="card-text">
-                  <strong>Medium Price:</strong> ${pizza.mediumPrice}
-                </p>
-                <p className="card-text">
-                  <strong>Large Price:</strong> ${pizza.largePrice}
                 </p>
                 <AddToCart pizza={pizza} addToCart={addToCart} />
               </div>

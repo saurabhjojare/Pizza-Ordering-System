@@ -1,4 +1,3 @@
-// AddToCart.tsx
 import React, { useState } from 'react';
 import { Pizza } from './GetPizza';
 import { vegToppings, nonVegToppings, crusts, Topping, Crust } from './Toppings';
@@ -38,17 +37,17 @@ const AddToCart: React.FC<AddToCartProps> = ({ pizza, addToCart }) => {
   return (
     <div>
       <Size size={size} setSize={setSize} pizza={pizza} />
+
       <CrustComponent crust={crust} setCrust={setCrust} crusts={crusts} />
 
-      <ToppingsComponent
-        availableToppings={availableToppings}
-        selectedToppings={selectedToppings}
-        handleToppingChange={handleToppingChange}
-      />
+      <ToppingsComponent availableToppings={availableToppings} selectedToppings={selectedToppings} handleToppingChange={handleToppingChange} />
 
       <Quantity quantity={quantity} incrementQuantity={incrementQuantity} decrementQuantity={decrementQuantity} />
-      
-      <button className='btn btn-primary' onClick={handleAddToCart}>Add to Cart</button>
+
+      <div className='text-center'>
+        <button className='btn btn-primary' onClick={handleAddToCart}>Add to Cart</button>
+      </div>
+
     </div>
   );
 };

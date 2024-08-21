@@ -14,7 +14,7 @@ export class ResponseInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> {
         return next.handle().pipe(
             map(data => {
-                if(data === undefined || data === null) {
+                if (data === undefined || data === null) {
                     return {
                         Success: true,
                         Message: 'Operation successful',

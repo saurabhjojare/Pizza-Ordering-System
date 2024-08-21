@@ -30,7 +30,7 @@ export class OrderLineService {
   }
 
   async update(id: number, updateOrderLineDto: UpdateOrderLineDto): Promise<OrderLineEntity> {
-    await this.findOne(id); // Ensure the order line exists
+    await this.findOne(id); 
     await this.orderLineRepository.update({ orderline_id: id }, updateOrderLineDto);
     return this.findOne(id);
   }

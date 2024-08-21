@@ -1,4 +1,3 @@
-// Size.tsx
 import React from 'react';
 import { Pizza } from './GetPizza';
 

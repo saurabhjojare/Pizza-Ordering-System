@@ -30,13 +30,13 @@ export class PizzaService {
   }
 
   async update(id: number, updatePizzaDto: UpdatePizzaDto): Promise<PizzaEntity> {
-    const pizza = await this.findOne(id); // Ensure pizza exists
+    const pizza = await this.findOne(id); 
     await this.pizzaRepository.update(id, updatePizzaDto);
     return this.pizzaRepository.findOneBy({ pizza_id: id });
   }
 
   async remove(id: number): Promise<void> {
-    const pizza = await this.findOne(id); // Ensure pizza exists
+    const pizza = await this.findOne(id); 
     await this.pizzaRepository.delete(id);
   }
 }

@@ -1,4 +1,3 @@
-// Cart.tsx
 import React from 'react';
 import { Pizza } from './GetPizza';
 import Buy from './Buy';
@@ -28,8 +27,8 @@ const Cart: React.FC<CartProps> = ({ cartItems, removeFromCart, updateQuantity, 
         item.size === 'regular'
           ? Number(item.pizza.regularPrice)
           : item.size === 'medium'
-          ? Number(item.pizza.mediumPrice)
-          : Number(item.pizza.largePrice);
+            ? Number(item.pizza.mediumPrice)
+            : Number(item.pizza.largePrice);
 
       const toppingsPrice = item.selectedToppings.reduce((sum, topping) => sum + topping.price, 0);
 
@@ -50,51 +49,41 @@ const Cart: React.FC<CartProps> = ({ cartItems, removeFromCart, updateQuantity, 
       <div className="card-body">
         <h5 className="card-title fs-3">Cart</h5>
         <ul className="list-group list-group-flush">
-          {cartItems.map((item, index) => {
-            const pizzaPrice =
-              item.size === 'regular'
-                ? Number(item.pizza.regularPrice)
-                : item.size === 'medium'
-                ? Number(item.pizza.mediumPrice)
-                : Number(item.pizza.largePrice);
-
-            return (
-              <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                <div className='fs-5'>
-                  <p className="mb-1"><strong>Pizza:</strong> {item.pizza.name}</p>
-                  <p className="mb-1"><strong>Size:</strong> {item.size}</p>
-                  <p className="mb-1"><strong>Crust:</strong> {item.crust.name} : ₹{item.crust.price}</p>
-                  <p className="mb-1">
-                    
-                    <div className="d-flex align-items-center mt-2">
+          {cartItems.map((item, index) => (
+            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+              <div className='fs-5'>
+                <p className="mb-1"><strong>Pizza:</strong> {item.pizza.name}</p>
+                <p className="mb-1"><strong>Size:</strong> {item.size}</p>
+                <p className="mb-1"><strong>Crust:</strong> {item.crust.name} : ₹{item.crust.price}</p>
+                <p className="mb-1">
+                  <div className="d-flex align-items-center mt-2">
                     <strong>Quantity:</strong>
-                      <button
-                        className='btn btn-light btn-sm mx-2'
-                        onClick={() => handleQuantityChange(index, false)}
-                      >
-                        -
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button
-                        className='btn btn-light btn-sm mx-2'
-                        onClick={() => handleQuantityChange(index, true)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </p>
-                  <p className="mb-1"><strong>Toppings: </strong> 
-                    {item.selectedToppings.map(topping => (
-                      <span key={topping.name}>{topping.name} : ₹{topping.price} </span>
-                    ))}
-                  </p>
-                </div>
-                <button className="btn btn-danger btn-sm" onClick={() => removeFromCart(index)}>
-                  Remove
-                </button>
-              </li>
-            );
-          })}
+                    <button
+                      className='btn btn-light btn-sm mx-2'
+                      onClick={() => handleQuantityChange(index, false)}
+                    >
+                      -
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      className='btn btn-light btn-sm mx-2'
+                      onClick={() => handleQuantityChange(index, true)}
+                    >
+                      +
+                    </button>
+                  </div>
+                </p>
+                <p className="mb-1"><strong>Toppings: </strong>
+                  {item.selectedToppings.map(topping => (
+                    <span key={topping.name}>{topping.name} : ₹{topping.price} </span>
+                  ))}
+                </p>
+              </div>
+              <button className="btn btn-danger btn-sm" onClick={() => removeFromCart(index)}>
+                Remove
+              </button>
+            </li>
+          ))}
         </ul>
         <div className="mt-3">
           <h6 className='fs-5 text-end'>Total: ₹{totalAmount}</h6>
@@ -102,7 +91,7 @@ const Cart: React.FC<CartProps> = ({ cartItems, removeFromCart, updateQuantity, 
         <div className="text-end mt-3">
           <Buy
             customerId={1}
-            deliveryAddress="Pune"
+            deliveryAddress="5678 Oak Avenue, CA"
             cartItems={cartItems.map(item => ({
               pizza_id: item.pizza.pizza_id,
               size: item.size,

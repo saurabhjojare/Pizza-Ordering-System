@@ -1,4 +1,3 @@
-// Quantity.tsx
 import React from 'react';
 
 interface QuantityProps {

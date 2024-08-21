@@ -5,11 +5,11 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api/v1'); // Set /api/v1/ URL
-  app.enableCors(); // Set Cross-origin resource sharing (CORS) On
-  app.useGlobalInterceptors(new ResponseInterceptor());  // Use Interceptor
+  app.setGlobalPrefix('api/v1'); 
+  app.enableCors(); 
+  app.useGlobalInterceptors(new ResponseInterceptor());  
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.PORT); // Set Port Number
+  await app.listen(process.env.PORT); 
 }
 
 bootstrap();

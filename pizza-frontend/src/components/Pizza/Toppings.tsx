@@ -1,10 +1,9 @@
-// Toppings.tsx
 import React from 'react';
 
 export type Topping = {
   name: string;
   price: number;
-  type: 'veg' | 'non-veg';  // Include the type of topping
+  type: 'veg' | 'non-veg';
 };
 
 export type Crust = {
