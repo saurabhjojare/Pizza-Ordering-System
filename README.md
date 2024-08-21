@@ -13,7 +13,7 @@ Pizza Palace is a comprehensive pizza ordering application designed to streamlin
 
 ## Technologies Used
 
-- **Frontend**: ReactJS
+- **Frontend**: ReactJS with TypeScript
 - **Backend**: NestJS
 - **Database**: PostgreSQL
 - **API**: RESTful APIs
