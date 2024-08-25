@@ -26,6 +26,18 @@ const FetchPizza: React.FC = () => {
         navigate(`/update-pizza/${pizzaId.toString()}`);
     };
 
+    const handleDeleteClick = (pizzaId: number) => {
+        if (window.confirm('Are you sure you want to delete this pizza?')) {
+            axios.delete(`http://localhost:5000/api/v1/pizzas/${pizzaId}`)
+                .then(() => {
+                    setPizzas(pizzas.filter(pizza => pizza.pizza_id !== pizzaId));
+                })
+                .catch(() => {
+                    setError('Failed to delete pizza');
+                });
+        }
+    };
+
     if (error) return <p className="text-center">{error}</p>;
 
     return (
@@ -59,7 +71,12 @@ const FetchPizza: React.FC = () => {
                                 >
                                     Update
                                 </button>
-                                <button className="btn btn-danger">Delete</button>
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={() => handleDeleteClick(pizza.pizza_id)}
+                                >
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     ))}

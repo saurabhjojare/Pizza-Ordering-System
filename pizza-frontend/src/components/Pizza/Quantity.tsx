@@ -11,9 +11,15 @@ const Quantity: React.FC<QuantityProps> = ({ quantity, incrementQuantity, decrem
     <div className='mb-3'>
       <label htmlFor='quantity' className='form-label'>Quantity</label>
       <div className='input-group'>
-        <button className='btn btn-outline-secondary' type='button' onClick={decrementQuantity}>
-          -
-        </button>
+      {quantity > 1 && (
+          <button
+            className='btn btn-outline-secondary'
+            type='button'
+            onClick={decrementQuantity}
+          >
+            -
+          </button>
+        )}
         <input
           type='text'
           className='form-control text-center'

@@ -58,13 +58,15 @@ const Cart: React.FC<CartProps> = ({ cartItems, removeFromCart, updateQuantity, 
                 <p className="mb-1">
                   <div className="d-flex align-items-center mt-2">
                     <strong>Quantity:</strong>
+                    {item.quantity > 1 && (
                     <button
                       className='btn btn-light btn-sm mx-2'
                       onClick={() => handleQuantityChange(index, false)}
                     >
                       -
                     </button>
-                    <span>{item.quantity}</span>
+                    )}
+                    <span className='ms-2 me-2'>{item.quantity} </span>
                     <button
                       className='btn btn-light btn-sm mx-2'
                       onClick={() => handleQuantityChange(index, true)}
