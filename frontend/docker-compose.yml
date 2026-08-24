@@ -1,0 +1,10 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pizza-frontend:1.0.0
+    container_name: pizza-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"

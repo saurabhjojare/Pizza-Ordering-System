@@ -1,0 +1,16 @@
+export enum Routes {
+  EMPTY = "",
+  ROOT = "/",
+  CART = "/cart",
+  LOGIN = "/login",
+  REGISTER = "/sign-up",
+  MY_PROFILE = "/my-profile",
+  UPDATE_PROFILE = "/update-profile",
+  MY_ORDERS = "/my-orders",
+  ADD_PIZZA = "/add-pizza",
+  UPDATE_PIZZA = "/update-pizza/:id",
+  ORDER = "/order",
+  ALL_ORDERS = "/all-orders",
+  ALL_USERS = "/all-users",
+  DASHBOARD = "/dashboard",
+}

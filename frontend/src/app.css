@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap");
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.content {
+  padding-top: 70px;
+  padding-bottom: 120px;
+}
+
+.dancing-script {
+  font-family: "Caveat", cursive;
+}
+
+@media (max-width: 767.98px) {
+  .content {
+    padding-top: 120px;
+  }
+}

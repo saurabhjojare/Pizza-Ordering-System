@@ -1,0 +1,38 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+coverage
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+
+# TypeScript
+*.tsbuildinfo
+
+# Docker Compose
+docker-compose.yml
+
+# Documentation
+README.md
+
+# Docker
+Dockerfile
+.dockerignore
